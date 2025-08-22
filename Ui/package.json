@@ -1,0 +1,47 @@
+{
+  "name": "coal",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "**Safemine** is a next-generation digital platform designed to modernize the coal mining industry by enhancing safety protocols, streamlining shift operations, and ensuring multilingual accessibility. Our platform offers a comprehensive solution for real-time logging, worker tracking, and risk management.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@radix-ui/react-switch": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.1.6",
+    "axios": "^1.7.7",
+    "chart.js": "^4.4.7",
+    "html2canvas": "^1.4.1",
+    "i18next": "^23.16.5",
+    "i18next-browser-languagedetector": "^8.0.0",
+    "i18next-http-backend": "^2.6.2",
+    "jspdf": "^2.5.2",
+    "lucide-react": "^0.469.0",
+    "react": "^18.3.1",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.1.1",
+    "react-icons": "^5.4.0",
+    "react-router-dom": "^6.28.0",
+    "react-to-print": "^3.0.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.11.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "vite": "^5.4.10"
+  }
+}

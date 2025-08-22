@@ -1,0 +1,72 @@
+{
+    "navbar": {
+    "login": "Login",
+    "search": "Search",
+    "accessibility": "Accessibility",
+    "language": "Language",
+    "alert": "Alert",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "knowledgeCenter": "Knowledge Center",
+    "mediaCenter": "Media Center",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Logout"
+    
+  },
+  "alert": {
+    "title": "Emergency Alert!",
+    "message": "Please be advised of the ongoing emergency procedures.",
+    "close": "Close"
+  },
+
+    
+        "aboutUs": {
+          "headerTitle": "About the Ministry of Coal",
+          "headerSubtitle": "Empowering the coal sector with innovative management and safety systems",
+          "missionTitle": "Our Mission",
+          "missionDescription": "At the Ministry of Coal, our mission is to ensure efficient and sustainable coal production while prioritizing worker safety, environmental responsibility, and technological advancements. We aim to revolutionize coal mining practices and bring transparency to all processes.",
+          "missionImageAlt": "Mission",
+          "visionTitle": "Our Vision",
+          "visionDescription": "Our vision is to be a global leader in safe, environmentally-friendly, and efficient coal extraction. We are committed to integrating cutting-edge technology and fostering innovation for a sustainable future.",
+          "visionImageAlt": "Vision",
+          "valuesTitle": "Our Values",
+          "valuesDescription": "We believe in:\n- Transparency and accountability in all our operations\n- Prioritizing the safety and well-being of our workers\n- Environmental sustainability and reducing our carbon footprint\n- Embracing innovation and technology to improve efficiency",
+          "valuesImageAlt": "Values",
+          "historyTitle": "Our History",
+          "historyDescription": "Since its inception, the Ministry of Coal has been at the forefront of managing and optimizing the coal resources of India. Our historical journey is marked by several milestones that have shaped the industry and the economy.",
+          "historyImageAlt": "History",
+          "footerText": "© 2024 Ministry of Coal, Government of India. All rights reserved."
+        },
+        
+            "contactUs": {
+              "headerTitle": "Contact Ministry of Coal",
+              "headerSubtitle": "We're here to help. Reach out to us for any inquiries, feedback, or assistance.",
+              "formTitle": "Get in Touch",
+              "formSubtitle": "Fill out the form below and our team will get back to you shortly.",
+              "nameLabel": "Name",
+              "emailLabel": "Email",
+              "messageLabel": "Message",
+              "namePlaceholder": "Your Name",
+              "emailPlaceholder": "Your Email",
+              "messagePlaceholder": "Your Message",
+              "sendButtonText": "Send Message",
+              "contactInfoTitle": "Contact Information",
+              "addressTitle": "Address",
+              "addressLine1": "Ministry of Coal, Government of India",
+              "addressLine2": "Shastri Bhawan, New Delhi, India",
+              "phoneTitle": "Phone",
+              "phoneNumber": "+91 12345 67890",
+              "phoneHours": "Mon-Fri: 9 AM - 5 PM",
+              "emailTitle": "Email",
+              "emailAddress": "info@coalministry.gov.in",
+              "emailResponseTime": "We'll get back to you within 48 hours.",
+              "footerText": "© 2024 Ministry of Coal, Government of India. All rights reserved."
+            }
+          
+          
+      
+      
+  }
+  
