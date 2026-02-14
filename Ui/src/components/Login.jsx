@@ -55,6 +55,14 @@ const LoginPage = () => {
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-yellow-500"
               required
             />
+            <div className="flex justify-end mt-2">
+              <span
+                onClick={() => navigate('/forgot-password')}
+                className="text-sm text-yellow-600 cursor-pointer hover:underline"
+              >
+                Forgot Password?
+              </span>
+            </div>
           </div>
 
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}

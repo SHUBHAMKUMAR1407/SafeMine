@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CoalContact from '../assets/Coal Contact.jpg'; // Import the photo
+import axios from "axios";
 
 const ContactUs = () => {
   const { t } = useTranslation();
@@ -9,6 +10,7 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
+  const [status, setStatus] = useState({ type: '', message: '' });
 
   const handleChange = (e) => {
     setFormData({
@@ -17,10 +19,18 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can add a function to handle the form submission, e.g., sending data to an API
-    alert(t('contactUs.messageSubmitted'));
+    setStatus({ type: '', message: '' });
+    try {
+      await axios.post('/api/v1/contact/submit', formData);
+      setStatus({ type: 'success', message: 'Message submitted successfully! We will get back to you shortly.' });
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus({ type: '', message: '' }), 5000);
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      setStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
+    }
   };
 
   return (
@@ -100,6 +110,13 @@ const ContactUs = () => {
                 ></textarea>
               </div>
 
+              {/* Status Message */}
+              {status.message && (
+                <div className={`text-center text-sm font-medium mb-4 ${status.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                  {status.message}
+                </div>
+              )}
+
               {/* Submit Button */}
               <div className="text-center">
                 <button
@@ -152,7 +169,7 @@ const ContactUs = () => {
       </section>
 
       {/* Footer Section */}
-      
+
     </div>
   );
 };
