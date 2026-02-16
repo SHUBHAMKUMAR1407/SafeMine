@@ -7,6 +7,10 @@ dotenv.config();
 
 const app = express();
 
+// Lightweight health endpoint for external checks
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
 // Robust CORS handling: allow when CORS_ORIGIN is not configured, otherwise restrict
 const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean);
 app.use((req, res, next) => {
@@ -57,6 +61,17 @@ app.use("/api/v1/feedback", feedbackRouter);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
+  // Ensure CORS headers on error responses so browsers don't block them
+  try {
+    const origin = req.headers.origin;
+    if (origin) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    }
+  } catch (e) {
+    // ignore
+  }
   return res.status(statusCode).json({
     success: false,
     message,

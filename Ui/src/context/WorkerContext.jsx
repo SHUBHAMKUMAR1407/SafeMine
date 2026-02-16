@@ -15,12 +15,18 @@ export const WorkerProvider = ({ children }) => {
     setError("");
     try {
       const response = await api.get("/api/v1/workers");
-      if (response.status === 200 && Array.isArray(response.data)) {
-        setWorkers(response.data);
+      if (response.status === 200) {
+        const payload = response.data?.data ?? response.data;
+        if (Array.isArray(payload)) {
+          setWorkers(payload);
+        } else {
+          setWorkers([]);
+        }
       }
     } catch (err) {
-      setError("Failed to fetch worker details.");
-      console.error(err);
+      console.error('Worker fetch error:', err);
+      const message = err.response?.data?.message || err.response?.rawText || err.message || 'Failed to fetch workers';
+      setError(message);
     } finally {
       setLoading(false);
     }

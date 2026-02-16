@@ -23,4 +23,24 @@ api.interceptors.request.use(
   }
 );
 
+// Response interceptor: if backend replies with HTML (e.g., proxy error page), attach rawText
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error && error.response && error.response.headers) {
+      const ct = error.response.headers['content-type'] || '';
+      if (ct.includes('text/html')) {
+        try {
+          // try to read raw text body if available
+          const text = error.response.data;
+          error.response.rawText = text;
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default api;
