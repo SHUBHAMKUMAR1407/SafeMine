@@ -35,8 +35,18 @@ const addWorker = asyncHandler(async (req, res) => {
 });
 
 const getWorkers = asyncHandler(async (req, res) => {
-  const workers = await Worker.find();
-  res.status(200).json(new ApiResponse(200, workers, "Workers fetched successfully."));
+  try {
+    const workers = await Worker.find();
+    return res.status(200).json(new ApiResponse(200, workers, "Workers fetched successfully."));
+  } catch (err) {
+    console.error('Error fetching workers:', err);
+    // Ensure CORS header is present on error responses
+    if (req && req.headers && req.headers.origin) {
+      res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+    }
+    return res.status(500).json({ success: false, message: 'Failed to fetch workers' });
+  }
 });
 
 const updateWorker = asyncHandler(async (req, res) => {

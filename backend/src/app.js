@@ -7,19 +7,34 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',');
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  })
-);
+// Robust CORS handling: allow when CORS_ORIGIN is not configured, otherwise restrict
+const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean);
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  // No origin (server-to-server or same-origin) -> allow
+  if (!origin) return next();
+
+  // If no allowed origins configured, allow all origins
+  if (allowedOrigins.length === 0) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') return res.sendStatus(200);
+    return next();
+  }
+
+  // If origin included in allowed list, allow it
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') return res.sendStatus(200);
+    return next();
+  }
+
+  // Disallowed origin
+  return res.status(403).json({ success: false, message: 'CORS origin not allowed' });
+});
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
