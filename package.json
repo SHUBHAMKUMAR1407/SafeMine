@@ -1,0 +1,26 @@
+{
+  "name": "safemine",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "SafeMine - Coal Mining Safety Platform",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "node -r dotenv/config backend/src/index.js",
+    "dev": "cd backend && npm run dev",
+    "build": "cd backend && npm install",
+    "postinstall": "cd backend && npm install"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "mining",
+    "safety",
+    "coal"
+  ],
+  "author": "",
+  "license": "ISC"
+}
