@@ -1,6 +1,6 @@
 // File: context/WorkerContext.jsx
 import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 export const WorkerContext = createContext();
 
@@ -14,7 +14,7 @@ export const WorkerProvider = ({ children }) => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get("/api/v1/workers");
+      const response = await api.get("/api/v1/workers");
       if (response.status === 200 && Array.isArray(response.data)) {
         setWorkers(response.data);
       }

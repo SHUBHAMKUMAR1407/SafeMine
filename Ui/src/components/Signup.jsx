@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { CheckCircle, XCircle } from 'lucide-react';
 import MinistryLogo from '../assets/Ministry.png';
 
@@ -31,7 +31,7 @@ const SignupPage = () => {
       return;
     }
     try {
-      const response = await axios.post('/api/v1/users/register', {
+      const response = await api.post('/api/v1/users/register', {
         firstName: formData.firstName,
         lastName: formData.lastName,
         mobile: formData.mobile,

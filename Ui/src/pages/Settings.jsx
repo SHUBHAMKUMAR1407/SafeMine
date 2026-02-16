@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { User, Lock, Bell, Moon, CheckCircle, XCircle } from 'lucide-react';
 
 const Settings = () => {
@@ -35,7 +35,7 @@ const Settings = () => {
         }
 
         try {
-            await axios.post('/api/v1/users/change-password', {
+            await api.post('/api/v1/users/change-password', {
                 oldPassword: passwordData.oldPassword,
                 newPassword: passwordData.newPassword
             });

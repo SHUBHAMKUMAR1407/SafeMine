@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Phone, LogOut, Edit, X, Camera, Trash2, CheckCircle, XCircle } from 'lucide-react';
-import axios from 'axios';
+import api from '../services/api';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       // Assuming /api/v1/users/update-account exists and works
-      const response = await axios.patch('/api/v1/users/update-account', formData);
+      const response = await api.patch('/api/v1/users/update-account', formData);
 
       // Update local storage and state
       let newStorageData = { ...user };
@@ -136,7 +136,7 @@ const Profile = () => {
                 formData.append('avatar', file);
 
                 try {
-                  const response = await axios.post('/api/v1/users/avatar', formData, {
+                  const response = await api.post('/api/v1/users/avatar', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                   });
 
@@ -297,7 +297,7 @@ const Profile = () => {
               <button
                 onClick={async () => {
                   try {
-                    await axios.delete('/api/v1/users/avatar');
+                    await api.delete('/api/v1/users/avatar');
 
                     const updatedUser = { ...user };
                     if (updatedUser.data?.user) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { Calendar, Users, UserCheck, UserX, Clock, UserMinus } from 'lucide-react';
 
 const Attendance = () => {
@@ -14,7 +14,7 @@ const Attendance = () => {
     useEffect(() => {
         const fetchAttendance = async () => {
             try {
-                const response = await axios.get('/api/v1/details');
+                const response = await api.get('/api/v1/details');
                 const data = response.data.data;
                 setAttendanceData(data);
 

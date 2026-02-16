@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { FileText, CheckCircle, Clock, AlertTriangle, Download } from 'lucide-react';
 
 const History = () => {
@@ -11,7 +11,7 @@ const History = () => {
             try {
                 // Reuse the same details endpoint for now, but in a real app this might be a separate /history endpoint
                 // or filtered by date range.
-                const response = await axios.get('/api/v1/details');
+                const response = await api.get('/api/v1/details');
                 // Sort by date descending
                 const sortedData = response.data.data.sort((a, b) => new Date(b.date) - new Date(a.date));
                 setHistoryData(sortedData);

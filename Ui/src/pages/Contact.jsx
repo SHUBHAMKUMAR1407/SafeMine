@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CoalContact from '../assets/Coal Contact.jpg'; // Import the photo
-import axios from "axios";
+import api from "../services/api";
 
 const ContactUs = () => {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ const ContactUs = () => {
     e.preventDefault();
     setStatus({ type: '', message: '' });
     try {
-      await axios.post('/api/v1/contact/submit', formData);
+      await api.post('/api/v1/contact/submit', formData);
       setStatus({ type: 'success', message: 'Message submitted successfully! We will get back to you shortly.' });
       setFormData({ name: "", email: "", message: "" });
       setTimeout(() => setStatus({ type: '', message: '' }), 5000);

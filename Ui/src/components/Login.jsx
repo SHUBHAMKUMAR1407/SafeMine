@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import MinistryLogo from '../assets/Ministry.png';
 
 const LoginPage = () => {
@@ -13,7 +13,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/v1/users/login', { email, password });
+      const response = await api.post('/api/v1/users/login', { email, password });
       localStorage.setItem('user', JSON.stringify(response.data));
       navigate('/');
     } catch (err) {

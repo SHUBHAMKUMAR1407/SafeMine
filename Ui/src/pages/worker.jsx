@@ -1,6 +1,6 @@
 // File: components/WorkerForm.jsx
 import React, { useState, useContext } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { CheckCircle } from "lucide-react";
 import { WorkerContext } from "../context/WorkerContext";
 
@@ -33,7 +33,7 @@ const WorkerForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/v1/workers", workerDetails);
+      const response = await api.post("/api/v1/workers", workerDetails);
       if (response.status === 201) {
         setShowSuccessModal(true);
         setError("");
