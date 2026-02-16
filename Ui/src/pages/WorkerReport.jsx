@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import api from '../services/api';
 
 const WorkerReport = () => {
   const [cachedWorkers, setCachedWorkers] = useState([]);
@@ -8,13 +9,12 @@ const WorkerReport = () => {
   // Fetch workers from the backend
   const fetchWorkers = async () => {
     try {
-      const response = await fetch("/api/v1/workers");
-      if (!response.ok) throw new Error("Failed to fetch workers.");
-      const responseData = await response.json();
-      console.log("API Response:", responseData); // Debugging the response
+      const response = await api.get('/api/v1/workers');
+      const responseData = response.data;
+      console.log("API Response:", responseData);
 
       // Ensure we access the correct array of workers
-      const workersArray = responseData.data || [];
+      const workersArray = responseData?.data || responseData || [];
       const formattedWorkers = workersArray.map(worker => ({
         firstName: worker.firstName,
         lastName: worker.lastName,

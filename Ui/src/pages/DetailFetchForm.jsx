@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import api from "../services/api";
 import { CheckCircle } from 'lucide-react';
 
 const StyledDetailFetchForm = () => {
@@ -12,13 +13,14 @@ const StyledDetailFetchForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/v1/details");
-        if (!response.ok) throw new Error("Failed to fetch details.");
-        const data = await response.json();
-        setFormData(data.data[0]);
-        setLoading(false);
+        const response = await api.get('/api/v1/details');
+        const payload = response.data?.data ?? response.data;
+        setFormData(payload?.[0] ?? null);
       } catch (err) {
-        setError(err.message);
+        console.error('DetailFetch fetch error:', err);
+        const message = err.response?.data?.message || err.response?.rawText || err.message || 'Failed to fetch details.';
+        setError(message);
+      } finally {
         setLoading(false);
       }
     };
@@ -39,12 +41,8 @@ const StyledDetailFetchForm = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch(`/api/v1/details/${formData._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) throw new Error("Failed to update data.");
+      const response = await api.put(`/api/v1/details/${formData._id}`, formData);
+      if (response.status !== 200) throw new Error(response.data?.message || 'Failed to update data.');
       setShowSuccessModal(true);
     } catch (err) {
       console.error(err.message);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../services/api';
 import { CheckCircle } from 'lucide-react';
 
 const DetailForm = () => {
@@ -44,15 +45,10 @@ const DetailForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/v1/details", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
+      const response = await api.post('/api/v1/details', formData);
+      if (response.status !== 201) {
+        const message = response.data?.message || 'Failed to submit details';
+        throw new Error(message);
       }
 
       setShowSuccessModal(true);

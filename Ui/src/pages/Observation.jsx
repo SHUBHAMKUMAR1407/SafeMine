@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import DashboardCharts from '../components/DashboardChart.jsx';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import api from '../services/api';
 
 const ObservationPage = () => {
   const [formData, setFormData] = useState(null);
@@ -13,13 +14,14 @@ const ObservationPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/v1/details");
-        if (!response.ok) throw new Error("Failed to fetch details.");
-        const data = await response.json();
-        setFormData(data.data[0]);
-        setLoading(false);
+        const response = await api.get('/api/v1/details');
+        const payload = response.data?.data ?? response.data;
+        setFormData(payload?.[0] ?? null);
       } catch (err) {
-        setError(err.message);
+        console.error('Observation fetch error:', err);
+        const message = err.response?.data?.message || err.response?.rawText || err.message || 'Failed to fetch details.';
+        setError(message);
+      } finally {
         setLoading(false);
       }
     };
