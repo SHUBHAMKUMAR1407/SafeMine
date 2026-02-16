@@ -9,8 +9,15 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN, // Allow requests only from the frontend URL
-    credentials: true, // Include cookies in requests
+    origin: (origin, callback) => {
+      const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',');
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
   })
 );
 
