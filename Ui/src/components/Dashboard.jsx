@@ -21,6 +21,9 @@ import WorkerReport from '../pages/WorkerReport';
 import DetailFetchForm from '../pages/DetailFetchForm';
 import ObservationPage from '../pages/Observation';
 import ContactUs from '../pages/Contact';
+import Attendance from '../pages/Attendance'; // Import Attendance component
+import History from '../pages/History'; // Import History component
+import Settings from '../pages/Settings'; // Import Settings component
 
 const Dashboard = () => {
   const [activeContent, setActiveContent] = useState('dashboard');
@@ -71,11 +74,11 @@ const Dashboard = () => {
       case 'reports':
         return <WorkerReport />;
       case 'attendance':
-        return <div>Attendance Content</div>;
+        return <Attendance />;
       case 'history':
-        return <div>History Content</div>;
+        return <History />;
       case 'settings':
-        return <div>Settings Content</div>;
+        return <Settings />;
       case 'support':
         return <ContactUs />;
       case 'exit':
@@ -112,74 +115,74 @@ const Dashboard = () => {
           <nav className="flex flex-col space-y-4">
             <button
               onClick={() => setActiveContent('dashboard')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'dashboard' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaHome />
-              <span>Dashboard</span>
+              <span className="font-medium">Dashboard</span>
             </button>
             <button
               onClick={() => setActiveContent('fill-form')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'fill-form' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaFileAlt />
-              <span>Fill Form</span>
+              <span className="font-medium">Fill Form</span>
             </button>
             <button
               onClick={() => setActiveContent('rounds')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'rounds' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaClipboardList />
-              <span>Update</span>
+              <span className="font-medium">Update</span>
             </button>
             <button
               onClick={() => setActiveContent('observation')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'observation' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaEye />
-              <span>Observation</span>
+              <span className="font-medium">Observation</span>
             </button>
             <button
               onClick={() => setActiveContent('reports')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'reports' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaChartBar />
-              <span>Worker Reports</span>
+              <span className="font-medium">Worker Reports</span>
             </button>
             <button
               onClick={() => setActiveContent('attendance')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'attendance' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaCalendarCheck />
-              <span>Attendance</span>
+              <span className="font-medium">Attendance</span>
             </button>
             <button
               onClick={() => setActiveContent('history')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'history' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaHistory />
-              <span>History</span>
+              <span className="font-medium">History</span>
             </button>
             <hr className="border-t border-gray-300 my-4" />
             <button
               onClick={() => setActiveContent('settings')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'settings' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaCogs />
-              <span>Settings</span>
+              <span className="font-medium">Settings</span>
             </button>
             <button
               onClick={() => setActiveContent('support')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${activeContent === 'support' ? 'bg-[#CA8A04] text-white shadow-lg' : 'text-gray-700 hover:bg-yellow-50 hover:text-[#CA8A04]'}`}
             >
               <FaHeadset />
-              <span>Support</span>
+              <span className="font-medium">Support</span>
             </button>
             <button
               onClick={() => setActiveContent('exit')}
-              className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 p-3 rounded-md transition-transform"
+              className="flex items-center space-x-3 p-3 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 mt-auto shadow-sm border border-red-100"
             >
               <FaSignOutAlt />
-              <span>Exit</span>
+              <span className="font-medium">Exit</span>
             </button>
           </nav>
         </aside>

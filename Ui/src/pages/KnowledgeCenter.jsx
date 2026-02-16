@@ -3,6 +3,7 @@ import { BookOpen, FileText, Video, Award, Search, ChevronRight } from 'lucide-r
 
 const KnowledgeCenter = () => {
     const [activeCategory, setActiveCategory] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const categories = [
         { id: 'all', label: 'All Resources' },
@@ -19,7 +20,8 @@ const KnowledgeCenter = () => {
             category: 'regulations',
             type: 'PDF',
             date: 'Jan 15, 2024',
-            description: 'A detailed overview of the Mines Act, 1952, including recent amendments and compliance requirements.'
+            description: 'A detailed overview of the Mines Act, 1952, including recent amendments and compliance requirements.',
+            link: 'https://labour.gov.in/sites/default/files/TheMinesAct1952.pdf'
         },
         {
             id: 2,
@@ -27,7 +29,8 @@ const KnowledgeCenter = () => {
             category: 'research',
             type: 'Research Paper',
             date: 'Feb 02, 2024',
-            description: 'Study on the efficacy of mist cannons and chemical suppressants in reducing particulate matter.'
+            description: 'Study on the efficacy of mist cannons and chemical suppressants in reducing particulate matter.',
+            link: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8268046/'
         },
         {
             id: 3,
@@ -35,7 +38,8 @@ const KnowledgeCenter = () => {
             category: 'guidelines',
             type: 'Guide',
             date: 'Mar 10, 2024',
-            description: 'Standard operating procedures for handling structural failures and gas leaks in underground mines.'
+            description: 'Standard operating procedures for handling structural failures and gas leaks in underground mines.',
+            link: 'https://www.cdc.gov/niosh/mining/UserFiles/works/pdfs/2012-140.pdf'
         },
         {
             id: 4,
@@ -43,7 +47,8 @@ const KnowledgeCenter = () => {
             category: 'training',
             type: 'Video Course',
             date: 'Mar 22, 2024',
-            description: 'Video training module for operators of dumpers, excavators, and draglines.'
+            description: 'Video training module for operators of dumpers, excavators, and draglines.',
+            link: 'https://www.youtube.com/watch?v=FqM5gNEJtq8'
         },
         {
             id: 5,
@@ -51,7 +56,8 @@ const KnowledgeCenter = () => {
             category: 'regulations',
             type: 'PDF',
             date: 'Dec 05, 2023',
-            description: 'Official gazette notification regarding the updated regulations for coal mine safety.'
+            description: 'Official gazette notification regarding the updated regulations for coal mine safety.',
+            link: 'https://labour.gov.in/sites/default/files/CoalMinesRegulations2017.pdf'
         },
         {
             id: 6,
@@ -59,13 +65,17 @@ const KnowledgeCenter = () => {
             category: 'research',
             type: 'Article',
             date: 'Apr 05, 2024',
-            description: 'How artificial intelligence is being used to predict machinery failures before they occur.'
+            description: 'How artificial intelligence is being used to predict machinery failures before they occur.',
+            link: 'https://www.mdpi.com/2075-163X/11/11/1210'
         }
     ];
 
-    const filteredResources = activeCategory === 'all'
-        ? resources
-        : resources.filter(r => r.category === activeCategory);
+    const filteredResources = resources.filter(resource => {
+        const matchesCategory = activeCategory === 'all' || resource.category === activeCategory;
+        const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            resource.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
 
     return (
         <div className="w-full max-w-screen-xl mx-auto px-8 mb-12 mt-12 font-roboto">
@@ -82,6 +92,8 @@ const KnowledgeCenter = () => {
                     <div className="mt-8 max-w-xl mx-auto relative">
                         <input
                             type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search for documents, topics, or guidelines..."
                             className="w-full py-3 px-6 pl-12 rounded-lg border border-gray-300 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#D4B030] shadow-sm font-sans"
                         />
@@ -139,9 +151,14 @@ const KnowledgeCenter = () => {
 
                                 <div className="flex items-center justify-between pt-6 border-t border-gray-100 font-sans">
                                     <span className="text-gray-400 text-xs">{resource.date}</span>
-                                    <button className="flex items-center gap-1 text-[#CA8A04] font-medium text-sm hover:translate-x-1 transition-transform">
+                                    <a
+                                        href={resource.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1 text-[#CA8A04] font-medium text-sm hover:translate-x-1 transition-transform"
+                                    >
                                         View Resource <ChevronRight size={16} />
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
