@@ -38,4 +38,16 @@ const deleteDetail = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, {}, "Detail deleted successfully."));
 });
 
-export { addDetail, getDetails, updateDetail, deleteDetail };
+const getDashboardStats = asyncHandler(async (req, res) => {
+  // Fetch the latest entry (assuming date or createdAt is sortable)
+  const latestDetail = await Detail.findOne().sort({ createdAt: -1 });
+
+  if (!latestDetail) {
+    // Return default zeroed structure if no data exists
+    return res.status(200).json(new ApiResponse(200, {}, "No stats found, returning empty default."));
+  }
+
+  res.status(200).json(new ApiResponse(200, latestDetail, "Dashboard stats fetched successfully."));
+});
+
+export { addDetail, getDetails, updateDetail, deleteDetail, getDashboardStats };

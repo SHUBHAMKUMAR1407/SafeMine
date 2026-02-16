@@ -1,7 +1,10 @@
 import { Router } from "express";
-import { addDetail, getDetails, updateDetail, deleteDetail } from "../controllers/detail.controller.js";
+import { addDetail, getDetails, updateDetail, deleteDetail, getDashboardStats } from "../controllers/detail.controller.js";
 
 const router = Router();
+
+// Get stats for dashboard
+router.route("/stats").get(getDashboardStats);
 
 // Add new detail
 router.route("/").post(addDetail);

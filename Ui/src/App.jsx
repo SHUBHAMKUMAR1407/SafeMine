@@ -6,12 +6,14 @@ import NewsPage from './pages/News';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Profile from './pages/Profile';
 import LoginPage from './components/Login';
 import SignupPage from './components/Signup';
 import ForgotPasswordPage from './components/ForgotPassword';
 import Footer from './components/Footer';
 import FillForm from './components/FillForm';
-import Dashboard from './components/Dashboard'; 
+import Dashboard from './components/Dashboard';
+import KnowledgeCenter from './pages/KnowledgeCenter';
 import { useAuth } from './context/AuthContext';
 
 import './i18n'; // Import i18n configuration
@@ -80,14 +82,38 @@ const App = () => {
               </>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <>
+                <Navbar onLanguageChange={handleLanguageChange} />
+                <main className="flex-1 p-8">
+                  <Profile />
+                </main>
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/knowledge-center"
+            element={
+              <>
+                <Navbar onLanguageChange={handleLanguageChange} />
+                <main className="flex-1 p-8">
+                  <KnowledgeCenter />
+                </main>
+                <Footer />
+              </>
+            }
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          
+
 
           {/* Dashboard route without Navbar or Footer */}
           <Route path="/dashboard/*" element={<Dashboard />} />
-          <Route path="/dashboard/fill-form" element={<FillForm />} /> 
+          <Route path="/dashboard/fill-form" element={<FillForm />} />
         </Routes>
       </div>
     </Router>

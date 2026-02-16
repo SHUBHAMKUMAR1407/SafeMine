@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CheckCircle } from 'lucide-react';
 
 const DetailForm = () => {
   const [formData, setFormData] = useState({
@@ -28,6 +29,8 @@ const DetailForm = () => {
     }
   });
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const handleInputChange = (category, subcategory, value) => {
     setFormData(prev => ({
       ...prev,
@@ -46,13 +49,13 @@ const DetailForm = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message);
       }
-  
-      alert("Data submitted successfully!");
+
+      setShowSuccessModal(true);
       setFormData({
         date: new Date().toISOString().split('T')[0],
         rounds: { completed: 0, overdue: 0, skipped: 0, inProgress: 0, cancelled: 0 },
@@ -167,6 +170,25 @@ const DetailForm = () => {
           Submit
         </button>
       </form>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm text-center relative animate-fade-in-up border-t-4 border-[#CA8A04]">
+            <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="text-[#CA8A04]" size={32} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">Success!</h3>
+            <p className="text-gray-600 mb-6">Data submitted successfully.</p>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="w-full py-3 bg-[#CA8A04] text-white font-semibold rounded-lg hover:bg-yellow-700 transition-colors shadow-md"
+            >
+              OK, Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

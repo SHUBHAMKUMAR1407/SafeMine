@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { CheckCircle } from 'lucide-react';
 
 const StyledDetailFetchForm = () => {
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +45,7 @@ const StyledDetailFetchForm = () => {
         body: JSON.stringify(formData),
       });
       if (!response.ok) throw new Error("Failed to update data.");
-      alert("Data updated successfully!");
+      setShowSuccessModal(true);
     } catch (err) {
       console.error(err.message);
       alert("Failed to update data.");
@@ -158,6 +161,25 @@ const StyledDetailFetchForm = () => {
           {submitting ? "Updating..." : "Update Details"}
         </button>
       </form>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm text-center relative animate-fade-in-up border-t-4 border-[#CA8A04]">
+            <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="text-[#CA8A04]" size={32} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">Success!</h3>
+            <p className="text-gray-600 mb-6">Data updated successfully.</p>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="w-full py-3 bg-[#CA8A04] text-white font-semibold rounded-lg hover:bg-yellow-700 transition-colors shadow-md"
+            >
+              OK, Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

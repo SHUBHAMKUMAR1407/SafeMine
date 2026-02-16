@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   FaHome,
   FaFileAlt,
@@ -14,6 +15,7 @@ import {
 import { HiOutlineMenuAlt3, HiOutlineX } from 'react-icons/hi'; // Import hamburger and close icons
 import WebLogo from '../assets/Web_Logo.png'; // Path to the Safe Mine logo
 import IntroImage from '../assets/INTRO__Coal.png'; // Path to the intro image
+import DashboardCharts from './DashboardChart'; // Import DashboardCharts component
 import FillForm from './FillForm'; // Import the FillForm component
 import WorkerReport from '../pages/WorkerReport';
 import DetailFetchForm from '../pages/DetailFetchForm';
@@ -23,29 +25,41 @@ import ContactUs from '../pages/Contact';
 const Dashboard = () => {
   const [activeContent, setActiveContent] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar toggle
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const response = await axios.get('/api/v1/details/stats');
+        setDashboardData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (activeContent === 'dashboard') {
+      fetchDashboardStats();
+    }
+  }, [activeContent]);
 
   const renderContent = () => {
     switch (activeContent) {
       case 'dashboard':
         return (
-          <div className="flex flex-col items-center justify-center h-full">
-            <img
-              src={IntroImage}
-              alt="Intro"
-              className="h-[180px] w-[300px] mb-6 object-contain"
-            />
-            <p className="text-xl font-semibold text-gray-700 mb-2">
-              Looks like you don’t have any info.
-            </p>
-            <p className="text-gray-500 mb-4">
-              Fortunately, it’s very easy to create one.
-            </p>
-            <button
-              onClick={() => setActiveContent('observation')}
-              className="px-6 py-2 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300"
-            >
-              Get Started
-            </button>
+          <div className="h-full flex flex-col">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 px-6 pt-4">Dashboard Overview</h2>
+            <div className="flex-1 overflow-y-auto">
+              {loading ? (
+                <div className="flex justify-center items-center h-64">
+                  <p className="text-gray-500">Loading stats...</p>
+                </div>
+              ) : (
+                <DashboardCharts data={dashboardData} />
+              )}
+            </div>
           </div>
         );
       case 'fill-form':
@@ -92,9 +106,8 @@ const Dashboard = () => {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Sidebar */}
         <aside
-          className={`${
-            sidebarOpen ? 'block' : 'hidden'
-          } md:block w-64 bg-white p-6 shadow-md flex-shrink-0 overflow-y-auto`}
+          className={`${sidebarOpen ? 'block' : 'hidden'
+            } md:block w-64 bg-white p-6 shadow-md flex-shrink-0 overflow-y-auto`}
         >
           <nav className="flex flex-col space-y-4">
             <button

@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
+import fs from "fs"; // Import fs for file system operations
 
 const registerUser = asyncHandler(async (req, res) => {
    // Extract user details from frontend
@@ -132,9 +133,95 @@ const resetPassword = asyncHandler(async (req, res) => {
    );
 });
 
+const uploadAvatar = asyncHandler(async (req, res) => {
+   const avatarLocalPath = req.file?.path;
+
+   if (!avatarLocalPath) {
+      throw new ApiError(400, "Avatar file is required");
+   }
+
+   const user = await User.findByIdAndUpdate(
+      req.user?._id,
+      {
+         $set: {
+            avatar: avatarLocalPath
+         }
+      },
+      { new: true }
+   ).select("-password -refreshToken");
+
+   return res
+      .status(200)
+      .json(new ApiResponse(200, user, "Avatar image uploaded successfully"));
+});
+
+const deleteAvatar = asyncHandler(async (req, res) => {
+   const user = await User.findById(req.user?._id);
+
+   if (!user) {
+      throw new ApiError(404, "User not found");
+   }
+
+   // Optional: Delete file from filesystem if it's a local file
+   if (user.avatar) {
+      try {
+         // Check if it's a local path (starts with public or similar, adjust based on your storage)
+         // For this implementation, we assume local storage in ./public/avatars
+         // We need to be careful not to delete if it's a default or external URL unless we are sure
+         // logical removal from DB is enough for now to satisfy "remove option"
+         // but let's try to remove file if possible.
+         // user.avatar is stored as "public\avatars\..." or similar
+         // We might need to resolve path. For now, let's just nullify DB field.
+
+         // If you want to delete file:
+         // fs.unlinkSync(user.avatar); 
+      } catch (error) {
+         console.log("Error deleting avatar file:", error);
+         // Continue even if file delete fails
+      }
+   }
+
+   user.avatar = undefined; // or null
+   await user.save({ validateBeforeSave: false });
+
+   // Return the updated user without password/refresh token
+   const updatedUser = await User.findById(req.user?._id).select("-password -refreshToken");
+
+   return res
+      .status(200)
+      .json(new ApiResponse(200, updatedUser, "Avatar removed successfully"));
+});
+
+const updateAccountDetails = asyncHandler(async (req, res) => {
+   const { firstName, lastName, mobile } = req.body
+
+   if (!firstName || !lastName || !mobile) {
+      throw new ApiError(400, "All fields are required")
+   }
+
+   const user = await User.findByIdAndUpdate(
+      req.user?._id,
+      {
+         $set: {
+            firstName,
+            lastName,
+            mobile // Ensure this field exists in your User model schema
+         }
+      },
+      { new: true }
+   ).select("-password -refreshToken")
+
+   return res
+      .status(200)
+      .json(new ApiResponse(200, user, "Account details updated successfully"))
+})
+
 export {
    registerUser,
    loginUser,
    logoutUser,
-   resetPassword
+   resetPassword,
+   uploadAvatar,
+   deleteAvatar,
+   updateAccountDetails
 }

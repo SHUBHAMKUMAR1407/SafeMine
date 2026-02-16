@@ -8,10 +8,13 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: isDevelopment
         ? {
-            '/api/v1/users': 'http://localhost:8002', // Local backend URL
-            '/api/v1/workers': 'http://localhost:8002',
-            '/api/v1/details': 'http://localhost:8002',
-          }
+          '/api/v1/users': 'http://localhost:8002', // Local backend URL
+          '/api/v1/workers': 'http://localhost:8002',
+          '/api/v1/details': 'http://localhost:8002',
+          '/api/v1/contact': 'http://localhost:8002',
+          '/api/v1/feedback': 'http://localhost:8002',
+          '/avatars': 'http://localhost:8002',
+        }
         : undefined, // No proxy in production
     },
     define: {

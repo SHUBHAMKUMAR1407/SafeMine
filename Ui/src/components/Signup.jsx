@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { CheckCircle, XCircle } from 'lucide-react';
 import MinistryLogo from '../assets/Ministry.png';
 
 const SignupPage = () => {
@@ -14,6 +15,9 @@ const SignupPage = () => {
     confirmPassword: ''
   });
   const [error, setError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,10 +39,21 @@ const SignupPage = () => {
         password: formData.password,
       });
       console.log('Signup successful:', response.data);
-      navigate('/login'); // Navigate to login page after successful signup
+      console.log('Signup successful:', response.data);
+      setModalMessage("Account created successfully!");
+      setShowSuccessModal(true);
     } catch (err) {
-      setError(err.response?.data?.message || 'Signup failed');
+      console.error("Signup error:", err);
+      // Try to get the most specific error message
+      const errorMessage = err.response?.data?.message || err.message || 'Signup failed';
+      setModalMessage(errorMessage);
+      setShowErrorModal(true);
     }
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccessModal(false);
+    navigate('/login');
   };
 
   return (
@@ -70,6 +85,44 @@ const SignupPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm text-center relative animate-fade-in-up border-t-4 border-[#CA8A04]">
+            <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="text-[#CA8A04]" size={32} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">Success!</h3>
+            <p className="text-gray-600 mb-6">{modalMessage}</p>
+            <button
+              onClick={handleSuccessClose}
+              className="w-full py-3 bg-[#CA8A04] text-white font-semibold rounded-lg hover:bg-yellow-700 transition-colors shadow-md"
+            >
+              Go to Login
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {showErrorModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm text-center relative animate-fade-in-up border-t-4 border-red-500">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <XCircle className="text-red-500" size={32} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">Error!</h3>
+            <p className="text-gray-600 mb-6">{modalMessage}</p>
+            <button
+              onClick={() => setShowErrorModal(false)}
+              className="w-full py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors shadow-md"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

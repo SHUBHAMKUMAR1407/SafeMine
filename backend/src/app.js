@@ -22,9 +22,24 @@ app.use(cookieParser());
 import userRouter from "./routes/user.routes.js";
 import workerRouter from "./routes/worker.routes.js";
 import detailRouter from "./routes/detail.routes.js";
+import contactRouter from "./routes/contact.routes.js";
+import feedbackRouter from "./routes/feedback.routes.js";
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/workers", workerRouter);
 app.use("/api/v1/details", detailRouter);
+app.use("/api/v1/contact", contactRouter);
+app.use("/api/v1/feedback", feedbackRouter);
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    message,
+    errors: err.errors || []
+  });
+});
 
 export { app };
