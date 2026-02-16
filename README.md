@@ -1,6 +1,6 @@
 # ⛏️ SafeMine: Empowering Safety, Ensuring Productivity
 
-![SafeMine Banner](Ui/src/assets/Web_Logo.png)
+![SafeMine Banner](Ui/src/assets/SafeMine_White_Logo.png)
 
 > **Digitizing the Coal Mining Industry for a Safer Tomorrow.**
 
