@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MinistryLogo from '../assets/Ministry.png';
-import axios from 'axios';
+import api from '../services/api';
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const ForgotPasswordPage = () => {
     }
 
     try {
-      await axios.post('/api/v1/users/reset-password', {
+      await api.post('/api/v1/users/reset-password', {
         email,
         newPassword
       });

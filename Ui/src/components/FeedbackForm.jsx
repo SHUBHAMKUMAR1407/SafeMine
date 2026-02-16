@@ -1,6 +1,6 @@
 // src/components/FeedbackForm.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const FeedbackForm = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const FeedbackForm = () => {
     e.preventDefault();
     setStatus({ type: '', message: '' });
     try {
-      await axios.post('/api/v1/feedback/submit', formData);
+      await api.post('/api/v1/feedback/submit', formData);
       setStatus({ type: 'success', message: 'Feedback submitted successfully!' });
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setStatus({ type: '', message: '' }), 5000);

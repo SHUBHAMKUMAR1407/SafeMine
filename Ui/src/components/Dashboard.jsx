@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import {
   FaHome,
   FaFileAlt,
@@ -34,7 +34,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        const response = await axios.get('/api/v1/details/stats');
+        const response = await api.get('/api/v1/details/stats');
         setDashboardData(response.data.data);
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
